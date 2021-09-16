@@ -1,7 +1,7 @@
 # Ortholog Assignment  
 Ortholog assignment pipline contain two main sh files: ConservationPipeline_Part1.sh and ConservationPipeline_Part2.sh. In part 1, first maximum-likelihood tree is constructed. 
 
-**ConservationPipeline_Part1.sh:**
+**ConservationPipeline_Part1.sh with explanations of codes:**
 
 
 ```bash
@@ -26,7 +26,7 @@ iqtree2="/cta/users/bselcuk/GPCRA/conservation_pipelineV2/iqtree-2.0.6-Linux/bin
 $iqtree2 -s $protein"_MSA"$date".fasta" -m JTT+I+G4+F -B 1000 -bnni --prefix $protein"_blasttree_"$date -T 10 -wbt -seed 1 >>$protein"_"$date"_pipeline.log"
 
 ```
-**ConservationPipeline_Part2.sh:**
+**ConservationPipeline_Part2.sh with explanations of codes:**
 
 ```bash
 #!/bin/bash
