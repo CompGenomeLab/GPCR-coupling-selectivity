@@ -26,3 +26,44 @@ iqtree2="/cta/users/bselcuk/GPCRA/conservation_pipelineV2/iqtree-2.0.6-Linux/bin
 $iqtree2 -s $protein"_MSA"$date".fasta" -m JTT+I+G4+F -B 1000 -bnni --prefix $protein"_blasttree_"$date -T 10 -wbt -seed 1 >>$protein"_"$date"_pipeline.log"
 
 ```
+**ConservationPipeline_Part2.sh:**
+
+```bash
+#!/bin/bash
+#SBATCH --array=0
+protein_array=(5HT5A)
+date=06-01-2021
+protein=${protein_array[$SLURM_ARRAY_TASK_ID]}
+cd $protein"_"$date
+module load py-pip-19.3-gcc-9.2.0-tfsp3uc
+python ../gene_clade_find.py --tree $protein"_blasttree_"$date".treefile" --blastout $protein"_result_tabular.txt" --out $protein"_"$date"_subtree.nwk"
+#gene_clade_find uses ete3 to obtain the subtree for our protein of interest 
+python ../subtree_fasta.py --tree $protein"_"$date"_subtree.nwk" --out $protein"_"$date"_subtree.fasta"
+#subtree_fasta obtains fasta sequences for the subtree we obtained
+module load mafft-7.407-gcc-9.2.0-fww6zrx
+mafft --ep 0 --thread -1 --genafpair --maxiterate 1000 $protein"_"$date"_subtree.fasta" > $protein"_subtreeMSA"$date".fasta"  
+echo ===== Alignment Trimming =====
+module load trimal-1.4.1-gcc-9.2.0-m27o55z
+#trimal version 1.4.1
+trimal -in $protein"_subtreeMSA"$date".fasta" -out $protein"_subtreeMSA"$date"_trimmed.fasta" -automated1
+echo ===== Second Tree =====
+module load raxml-ng-0.9.0
+#raxml-ng version 0.9.0
+raxml-ng --threads 4 --search --data-type AA --model JTT+I+G4+F --force msa_dups --force msa_names --seed 2 -msa $protein"_subtreeMSA"$date"_trimmed.fasta"  --prefix $protein"_subtree_"$date # --redo #--bs-metric tbe,fbp
+echo ===== Paralog Triming =====
+module load py-pip-19.3-gcc-9.2.0-tfsp3uc
+module load py-biopython-1.73-gcc-9.2.0-gzrw2dv
+python ../ete3trimmer.py --tree $protein"_subtree_"$date".raxml.bestTree" --blastout $protein"_result_tabular.txt" --protein $protein --fasta $protein"_blast.fasta" --out $protein"_subtree_"$date"_orthologs.nwk"
+#--tree input tree in newick format
+#--blastout blast output in tabular format
+#--protein our protein of interest
+#--fasta fasta sequence source produced from blast results
+#--out output trimmed tree in newick format
+
+python ../ete3order.py --tree $protein"_subtree_"$date"_orthologs.nwk" --out $protein"_subtree_"$date"_orthologs_ordered.nwk"
+#--tree input tree directory
+#--out output tree directory
+#Human leaf node is at the top of the tree.
+python ../subtree_fasta.py --tree $protein"_subtree_"$date"_orthologs_ordered.nwk"  --out $protein"_"$date"_orthologs_ordered.fasta"
+#Obtaining orthologous sequences in the same order with the ordered tree.
+```
