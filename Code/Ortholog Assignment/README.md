@@ -1,5 +1,6 @@
 # Ortholog Assignment  
-Ortholog assignment pipline contain two main sh files: ConservationPipeline_Part1.sh and ConservationPipeline_Part2.sh. In part 1, first maximum-likelihood tree is constructed. 
+Ortholog assignment pipline contain two main sh files: ConservationPipeline_Part1.sh and ConservationPipeline_Part2.sh. In part 1, first maximum-likelihood tree is constructed. In part 2, protein subtree is obtained 
+, second ML tree is constructed and paralogs are eliminated.
 
 **ConservationPipeline_Part1.sh with explanations of codes:**
 
