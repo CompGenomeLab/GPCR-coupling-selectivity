@@ -9,7 +9,7 @@ Requirements:
 \>sp|P07550|ADRB2_HUMAN|9606\
 \>ADRB2 orthologs\
 \>sp|P21728|DRD1_HUMAN|9606\
-\>DRD1 orthologs\
+\>DRD1 orthologs
 
 Usage of specific_residue_find.py:
 
