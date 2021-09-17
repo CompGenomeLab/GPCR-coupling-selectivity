@@ -2,10 +2,10 @@
 
 This repository contains the codes that are used for the analyses of the paper "Receptor-wide Determinants of G Protein Coupling Selectivity in Aminergic GPCRs"
 
-Authors:
+**Authors:**
 Berkay Selçuk, İsmail Erol, Serdar Durdağı, Ogun Adebali
 
-contact for the repository: bselcuk@sabanciuniv.edu
+**Contact for scripts and supplementary data: bselcuk@sabanciuniv.edu**
 
 Abstract:
 
