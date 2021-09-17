@@ -40,16 +40,22 @@ def fasta_obtainer(protein_list,ID_dict,output_file):
         check_string=""
         print (protein +" is being searched..")
         tax_ID=ID_dict[protein]
-        
         if tax_ID not in duplicate_remove_dict:
             duplicate_remove_dict[tax_ID]=[]
-            
+        
+	#---------------------------
+	#This part should be specificed based on your fasta sequences database directory.
+    
         for file in os.listdir("/cta/users/bselcuk/GPCRA/blast_documents/fasta_files/"):
             if file.endswith("_"+tax_ID+".fasta"):
                 file=(os.path.join("/cta/users/bselcuk/GPCRA/blast_documents/fasta_files/", file))
                 fasta=open(file,"r")
                 print ("Proteome file: "+file)
                 break
+
+	#--------------------------------
+
+
         while 1:
             line=fasta.readline()
             if line=="":
@@ -80,8 +86,8 @@ def fasta_obtainer(protein_list,ID_dict,output_file):
                           
     
 import argparse
-ap = argparse.ArgumentParser(description="Script for obtaining FASTA files from a source.")
-ap.add_argument("--blastout", required=True,help="The old FASTA file")
+ap = argparse.ArgumentParser(description="Script for obtaining FASTA files from a blastp output.")
+ap.add_argument("--blastout", required=True,help="Blastp output in tabular format")
 ap.add_argument("--num", required=True,help="The new FASTA file containing extra sequences")
 ap.add_argument("--taxid", required=True,help="The FASTA headers to remove (newlne separated)")
 ap.add_argument("--out", required=True, help="The output directory and file name of the new FASTA file.")

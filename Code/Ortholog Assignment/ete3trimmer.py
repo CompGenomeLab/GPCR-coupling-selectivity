@@ -104,13 +104,11 @@ import argparse
 ap = argparse.ArgumentParser(description="Script for obtaining FASTA files from a newick tree.")
 ap.add_argument("--tree", required=True,help="The tree file in newick format.")
 ap.add_argument("--out", required=True, help="The output directory and file name of the new FASTA file.")
-ap.add_argument("--blastout", required=True,help="The blast result in tabular format.")
 ap.add_argument("--fasta", required=True,help="The FASTA file of raw sequences.")
-ap.add_argument("--protein", required=True,help="The FASTA file of raw sequences.")
+ap.add_argument("--protein", required=True,help="Protein of interest")
 args = vars(ap.parse_args())
 
 tree=args["tree"]
-blast_out=args["blastout"]
 fasta_file=args["fasta"]
 out_file=args["out"]
 protein=args["protein"]

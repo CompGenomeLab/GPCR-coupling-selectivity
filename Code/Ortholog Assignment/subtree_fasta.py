@@ -7,7 +7,7 @@ This is a temporary script file.
 import re
 import sys
 from ete3 import PhyloTree
-def species_count(tree_file):
+def species_names(tree_file):
     header_list=[]
     tree=PhyloTree(tree_file)
     for leaf in tree:
@@ -24,12 +24,17 @@ def fasta_obtainer(protein_list,output_fasta):
         print (protein +" is being searched..")
         protein_info=protein.split("|")
         tax_ID=protein_info[3]
+
+	#----------------------
+	#This part should be specificed based on your fasta sequences database directory.
         for file in os.listdir("/cta/users/bselcuk/GPCRA/blast_documents/fasta_files/"):
     	    if file.endswith("_"+tax_ID+".fasta"):
                 file=(os.path.join("/cta/users/bselcuk/GPCRA/blast_documents/fasta_files/", file))
                 fasta=open(file,"r")
                 print ("Proteome file: "+file)
                 break
+
+	#----------------------
         while 1:
             line=fasta.readline()
             if line=="":
@@ -62,5 +67,5 @@ args = vars(ap.parse_args())
 tree=args["tree"]
 out_fasta=args["out"]
 
-sub_tree_result=species_count(tree)
-print(fasta_obtainer(sub_tree_result,out_fasta))
+sub_tree_names=species_names(tree)
+print(fasta_obtainer(sub_tree_names,out_fasta))

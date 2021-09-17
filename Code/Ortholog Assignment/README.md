@@ -62,9 +62,8 @@ raxml-ng --threads 4 --search --data-type AA --model JTT+I+G4+F --force msa_dups
 #Paralog Triming
 module load py-pip-19.3-gcc-9.2.0-tfsp3uc
 module load py-biopython-1.73-gcc-9.2.0-gzrw2dv
-python ../ete3trimmer.py --tree $protein"_subtree_"$date".raxml.bestTree" --blastout $protein"_result_tabular.txt" --protein $protein --fasta $protein"_blast.fasta" --out $protein"_subtree_"$date"_orthologs.nwk"
+python ../ete3trimmer.py --tree $protein"_subtree_"$date".raxml.bestTree" --protein $protein --fasta $protein"_blast.fasta" --out $protein"_subtree_"$date"_orthologs.nwk"
 #--tree input tree in newick format
-#--blastout blast output in tabular format
 #--protein our protein of interest
 #--fasta fasta sequence source produced from blast results
 #--out output trimmed tree in newick format
