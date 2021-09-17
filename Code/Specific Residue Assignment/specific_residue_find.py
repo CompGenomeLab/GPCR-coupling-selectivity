@@ -412,309 +412,38 @@ def pairwise_compare(list1,list2,position_object,comparison_type,MSA,specificity
         return position_object
 
 
+#You should add the following lines to your code and run it:
+#create two lists to compare as couplers and non_couplers
+#couplers should contain all gene names that couple to a particular g protein
+#non_couplers should contain gene names that does not couple to that g protein
 
-"""Index 0 is A specific, index 1 is B specific, index 3 is A and B specific and index 2 is consensus.
-7 is both specific and consensus."""
-MSA="aminergic_orthologs_04-07-2020_MSA_einsi.fasta"
+#Here we give an example for Gz in Inoue:
 
-"""
-#Gs coupling
-#protein_list=["5HT7R","ADA1A","ADA1B","ADA1D","HRH1","5HT4R","HRH2","5HT6R","DRD1","DRD5",
- #   "ADRB1","ADRB2","ADRB3","ACM5"]
-#compare_list=["5HT1A","5HT1B","5HT1D","5HT1E","5HT1F","ACM1","ACM3","ACM4","ACM2","HRH3",
-#    "HRH4","5HT2A","5HT2B","5HT2C","DRD2","DRD3","DRD4","ADA2A","ADA2B","ADA2C"]
-#Gi coupling
+couplers=["ADA2A","ADA2B","ADA2C","DRD1","DRD2","DRD3","DRD4","DRD5","5HT1B","5HT1D","5HT1E","5HT2A","5HT2B","5HT2C","5HT4R","5HT6R","5HT7R","HRH1","HRH2","ACM3","ACM5"]
+non_couplers=["ADRB1","ADRB2","ADRB3","ADA1A","ADA1B","ADA1D","5HT1A","5HT1F","HRH3","HRH4","ACM1","ACM2","ACM4"]
 
-protein_list=["5HT1A","5HT1B","5HT1D","5HT1E","5HT1F","ACM1","ACM3","ACM5",
-    "ACM2","ACM4","HRH3","HRH4","HRH1","5HT2A","5HT2B","5HT2C","DRD2",
-    "DRD3","DRD4","ADA2A","ADA2B","ADA2C","5HT4R","HRH2","5HT6R","DRD1","DRD5","5HT7R"]
-compare_list=["ADA1A","ADA1B","ADA1D","ADRB1","ADRB2","ADRB3"]
+MSA="directory of your multiple sequence alignment"
 
-#Gs coupling with ACM5
-compare_list=["5HT1A","5HT1B","5HT1D","5HT1E","5HT1F","ACM1","ACM3","ACM5","ACM4","ACM2","HRH3",
-    "HRH4","5HT2A","5HT2B","5HT2C","DRD2","DRD3","DRD4","ADA2A","ADA2B","ADA2C"]
-MSA="aminergic_orthologs_04-07-2020_MSA_einsi.fasta"
-protein_list=["5HT7R","ADA1A","ADA1B","ADA1D","HRH1","5HT4R","HRH2","5HT6R","DRD1","DRD5",
-    "ADRB1","ADRB2","ADRB3"]
-    """
-"""   
-#GNAO1_inoue
-compare_list=["ADRB1","ADRB2","ADRB3","ADA1A","ADA1B","ADA1D","DRD1","5HT1F","5HT2A","5HT2B","HRH4","ACM1","ACM2"]
-protein_list=["ADA2A","ADA2B","ADA2C","DRD2","DRD3","DRD4","DRD5","5HT1A","5HT1B","5HT1D","5HT1E","5HT2C","5HT4R","5HT6R","5HT7R","HRH1","HRH2","HRH3","ACM3","ACM4","ACM5"]
 
+#Specific Aproach
+
+#First, comparing within coupler group
 inside_dict={}
-for i in protein_list:
-    inside_dict=pairwise_compare([i],protein_list,inside_dict,0,MSA,90,90,70,"9606",1)
+for i in couplers:
+    inside_dict=pairwise_compare([i],couplers,inside_dict,0,MSA,90,90,70,"9606",1)
 
+#Secondly, we compare with the non-couplers
 outside_dict={}
-for i in protein_list:
-    outside_dict=pairwise_compare([i],compare_list,outside_dict,0,MSA,90,90,70,"9606",1)
+for i in couplers:
+    outside_dict=pairwise_compare([i],non_couplers,outside_dict,0,MSA,90,90,70,"9606",1)
 
+#For a residue to be specific for this approach inside_dict value should be 0 and outside_dict value should be at leas 1
 
-print("==========INOUE PART===========")
-print("Compared groups:",protein_list,compare_list)
-print("Inside variation")
-print(inside_dict)
-print("Outside variation")
-print(outside_dict)
+#================
+#Sensitive Aproach
+sensitive_dict={}
+sensitive_dict=pairwise_compare([couplers],non_couplers,sensitive_dict,0,MSA,90,90,70,"9606",1)
+#We get every residue from this approach.
 
-#GNAO1_avet
-compare_list=["ADA1A"]
-protein_list=["ADRB1","ADRB2","ADA2A","ADA2B","ADA2C","DRD1","DRD2","DRD5","5HT1A","5HT1B","5HT1D","5HT2A","5HT2B","5HT2C","HRH1","HRH2","ACM1","ACM2","ACM3","ACM4"]
+#Last parameter controls the similarity measure from BLOSUM80 matrix. You can disable it by chaingin it to 0.
 
-inside_dict={}
-for i in protein_list:
-    inside_dict=pairwise_compare([i],protein_list,inside_dict,0,MSA,90,90,70,"9606",1)
-
-outside_dict={}
-for i in protein_list:
-    outside_dict=pairwise_compare([i],compare_list,outside_dict,0,MSA,90,90,70,"9606",1)
-
-
-print("==========AVET PART=============")
-print("Compared groups:",protein_list,compare_list)
-print("Inside variation")
-print(inside_dict)
-print("Outside variation")
-print(outside_dict)
-
-
-#GNAZ_inoue
-protein_list=["ADA2A","ADA2B","ADA2C","DRD1","DRD2","DRD3","DRD4","DRD5","5HT1B","5HT1D","5HT1E","5HT2A","5HT2B","5HT2C","5HT4R","5HT6R","5HT7R","HRH1","HRH2","ACM3","ACM5"]
-compare_list=["ADRB1","ADRB2","ADRB3","ADA1A","ADA1B","ADA1D","5HT1A","5HT1F","HRH3","HRH4","ACM1","ACM2","ACM4"]
-
-inside_dict={}
-for i in protein_list:
-    inside_dict=pairwise_compare([i],protein_list,inside_dict,0,MSA,90,90,70,"9606",1)
-
-outside_dict={}
-for i in protein_list:
-    outside_dict=pairwise_compare([i],compare_list,outside_dict,0,MSA,90,90,70,"9606",1)
-
-
-print("==========INOUE PART===========")
-print("Compared groups:",protein_list,compare_list)
-print("Inside variation")
-print(inside_dict)
-print("Outside variation")
-print(outside_dict)
-
-#GNAZ_avet
-compare_list=["ADA1A","ADRB2","DRD5","5HT1D"]
-protein_list=["ADRB1","ADA2A","ADA2B","ADA2C","DRD1","DRD2","5HT1A","5HT1B","5HT2A","5HT2B","5HT2C","HRH1","HRH2","ACM1","ACM2","ACM3","ACM4"]
-compare_list=["ADA1A","ADRB2","DRD5","5HT1D"]
-inside_dict={}
-for i in protein_list:
-    inside_dict=pairwise_compare([i],protein_list,inside_dict,0,MSA,90,90,70,"9606",1)
-
-outside_dict={}
-for i in protein_list:
-    outside_dict=pairwise_compare([i],compare_list,outside_dict,0,MSA,90,90,70,"9606",1)
-
-
-print("==========AVET PART=============")
-print("Compared groups:",protein_list,compare_list)
-print("Inside variation")
-print(inside_dict)
-print("Outside variation")
-print(outside_dict)
-"""
-"""
-#GNAQ_inoue
-protein_list=["ADRB2","ADA1A","ADA1B","ADA1D","DRD1","DRD5","5HT1A","5HT2A","5HT2B","5HT2C","5HT4R","5HT6R","5HT7R","HRH1","HRH2","ACM1","ACM3","ACM5"]
-compare_list=["DRD2","DRD3","DRD4","ADRB1","ADRB3","ADA2A","ADA2B","ADA2C","5HT1B","5HT1D","5HT1E","5HT1F","HRH3","HRH4","ACM2","ACM4"]
-
-inside_dict={}
-for i in protein_list:
-    inside_dict=pairwise_compare([i],protein_list,inside_dict,0,MSA,90,90,70,"9606",1)
-
-outside_dict={}
-for i in protein_list:
-    outside_dict=pairwise_compare([i],compare_list,outside_dict,0,MSA,90,90,70,"9606",1)
-
-
-print("==========INOUE PART===========")
-print("Compared groups:",protein_list,compare_list)
-print("Inside variation")
-print(inside_dict)
-print("Outside variation")
-print(outside_dict)
-
-#GNAQ_avet
-
-protein_list=["ADA2A","5HT2A","5HT2B","HRH1","ACM1","ACM3","ACM4"]
-compare_list=["ADRB1","ADA1A","ADA2B","ADRB2","ADA2C","DRD1","DRD2","DRD5","5HT1A","5HT1B","5HT1D","5HT2C","ACM2","HRH2"]
-inside_dict={}
-for i in protein_list:
-    inside_dict=pairwise_compare([i],protein_list,inside_dict,0,MSA,90,90,70,"9606",1)
-
-outside_dict={}
-for i in protein_list:
-    outside_dict=pairwise_compare([i],compare_list,outside_dict,0,MSA,90,90,70,"9606",1)
-
-
-print("==========AVET PART=============")
-print("Compared groups:",protein_list,compare_list)
-print("Inside variation")
-print(inside_dict)
-print("Outside variation")
-print(outside_dict)
-
-#GNA14_inoue
-protein_list=["ADRB1","ADRB2","ADA1A","ADA1B","ADA1D","DRD1","DRD5","5HT1B","5HT1D","5HT1A","5HT2A","5HT2B","5HT2C","5HT4R","5HT6R","5HT7R","HRH1","HRH2","ACM1","ACM3","ACM5"]
-compare_list=["DRD2","DRD3","DRD4","ADRB3","ADA2A","ADA2B","ADA2C","5HT1E","5HT1F","HRH3","HRH4","ACM2","ACM4"]
-
-inside_dict={}
-for i in protein_list:
-    inside_dict=pairwise_compare([i],protein_list,inside_dict,0,MSA,90,90,70,"9606",1)
-
-outside_dict={}
-for i in protein_list:
-    outside_dict=pairwise_compare([i],compare_list,outside_dict,0,MSA,90,90,70,"9606",1)
-
-
-print("==========INOUE PART===========")
-print("Compared groups:",protein_list,compare_list)
-print("Inside variation")
-print(inside_dict)
-print("Outside variation")
-print(outside_dict)
-
-#GNA14_avet
-protein_list=["ADRB1","ADA1A","ADA2A","5HT1A","5HT2A","5HT2B","HRH1","ACM1","ACM2","ACM3","ACM4"]
-compare_list=["ADA2B","ADRB2","ADA2C","DRD1","DRD2","DRD5","5HT1B","5HT1D","5HT2C","HRH2"]
-inside_dict={}
-for i in protein_list:
-    inside_dict=pairwise_compare([i],protein_list,inside_dict,0,MSA,90,90,70,"9606",1)
-
-outside_dict={}
-for i in protein_list:
-    outside_dict=pairwise_compare([i],compare_list,outside_dict,0,MSA,90,90,70,"9606",1)
-
-
-print("==========AVET PART=============")
-print("Compared groups:",protein_list,compare_list)
-print("Inside variation")
-print(inside_dict)
-print("Outside variation")
-print(outside_dict)
-
-
-#GNA15_inoue
-protein_list=["5HT2C","5HT7R","HRH1","ACM3","ACM5"]
-compare_list=["ADRB1","ADRB2","ADA1A","ADA1B","ADA1D","DRD1","DRD5","5HT1B","5HT1D","5HT1A","5HT2A","5HT2B","5HT4R","5HT6R","DRD2","DRD3","DRD4","ADRB3","ADA2A","ADA2B","ADA2C","5HT1E","5HT1F","HRH3","HRH4","HRH2","ACM1","ACM2","ACM4"]
-
-inside_dict={}
-for i in protein_list:
-    inside_dict=pairwise_compare([i],protein_list,inside_dict,0,MSA,90,90,70,"9606",1)
-
-outside_dict={}
-for i in protein_list:
-    outside_dict=pairwise_compare([i],compare_list,outside_dict,0,MSA,90,90,70,"9606",1)
-
-
-print("==========INOUE PART===========")
-print("Compared groups:",protein_list,compare_list)
-print("Inside variation")
-print(inside_dict)
-print("Outside variation")
-print(outside_dict)
-
-#GNA15_avet
-protein_list=["ADRB1","ADA1A","ADA2A","ADA2B","ADRB2","ADA2C","DRD1","DRD5","5HT1B","5HT1A","5HT2A","5HT2B","5HT2C","HRH2","HRH1","ACM1","ACM2","ACM3","ACM4"]
-compare_list=["DRD2","5HT1D"]
-inside_dict={}
-for i in protein_list:
-    inside_dict=pairwise_compare([i],protein_list,inside_dict,0,MSA,90,90,70,"9606",1)
-
-outside_dict={}
-for i in protein_list:
-    outside_dict=pairwise_compare([i],compare_list,outside_dict,0,MSA,90,90,70,"9606",1)
-
-
-print("==========AVET PART=============")
-print("Compared groups:",protein_list,compare_list)
-print("Inside variation")
-print(inside_dict)
-print("Outside variation")
-print(outside_dict)
-
-
-#GNA12_inoue
-protein_list=["ADA2B","DRD5","5HT2C","5HT4R","5HT7R"]
-compare_list=["ADRB1","ADRB2","ADA1A","ADA1B","ADA1D","DRD1","5HT1B","5HT1D","5HT1A","5HT2A","5HT2B","5HT6R","DRD2","DRD3","DRD4","ADRB3","ADA2A","ADA2C","5HT1E","5HT1F","HRH3","HRH4","HRH2","HRH1","ACM3","ACM5","ACM1","ACM2","ACM4"]
-
-inside_dict={}
-for i in protein_list:
-    inside_dict=pairwise_compare([i],protein_list,inside_dict,0,MSA,90,90,70,"9606",1)
-
-outside_dict={}
-for i in protein_list:
-    outside_dict=pairwise_compare([i],compare_list,outside_dict,0,MSA,90,90,70,"9606",1)
-
-
-print("==========INOUE PART===========")
-print("Compared groups:",protein_list,compare_list)
-print("Inside variation")
-print(inside_dict)
-print("Outside variation")
-print(outside_dict)
-
-#GNA12_avet
-protein_list=["5HT2C","HRH1"]
-compare_list=["DRD2","5HT1D","ADRB1","ADA1A","ADA2A","ADA2B","ADRB2","ADA2C","DRD1","DRD5","5HT1B","5HT1A","5HT2A","5HT2B","HRH2","ACM1","ACM2","ACM3","ACM4"]
-inside_dict={}
-for i in protein_list:
-    inside_dict=pairwise_compare([i],protein_list,inside_dict,0,MSA,90,90,70,"9606",1)
-
-outside_dict={}
-for i in protein_list:
-    outside_dict=pairwise_compare([i],compare_list,outside_dict,0,MSA,90,90,70,"9606",1)
-
-
-print("==========AVET PART=============")
-print("Compared groups:",protein_list,compare_list)
-print("Inside variation")
-print(inside_dict)
-print("Outside variation")
-print(outside_dict)
-
-"""
-#GNA13_inoue
-protein_list=["ADA1A","DRD5","5HT2C","5HT6R","5HT7R","HRH2"]
-compare_list=["ADRB1","ADRB2","ADA1B","ADA1D","DRD1","5HT1B","5HT1D","5HT1A","5HT2A","5HT2B","5HT4R","DRD2","DRD3","DRD4","ADRB3","ADA2A","ADA2B","ADA2C","5HT1E","5HT1F","HRH3","HRH4","HRH1","ACM3","ACM5","ACM1","ACM2","ACM4"]
-
-inside_dict={}
-for i in protein_list:
-    inside_dict=pairwise_compare([i],protein_list,inside_dict,0,MSA,90,90,70,"9606",1)
-
-outside_dict={}
-for i in protein_list:
-    outside_dict=pairwise_compare([i],compare_list,outside_dict,0,MSA,90,90,70,"9606",1)
-
-
-print("==========INOUE PART===========")
-print("Compared groups:",protein_list,compare_list)
-print("Inside variation")
-print(inside_dict)
-print("Outside variation")
-print(outside_dict)
-
-#GNA13_avet
-protein_list=["ADA1A","5HT2C","HRH1"]
-compare_list=["DRD2","5HT1D","ADRB1","ADA2A","ADA2B","ADRB2","ADA2C","DRD1","DRD5","5HT1B","5HT1A","5HT2A","5HT2B","HRH2","ACM1","ACM2","ACM3","ACM4"]
-inside_dict={}
-for i in protein_list:
-    inside_dict=pairwise_compare([i],protein_list,inside_dict,0,MSA,90,90,70,"9606",1)
-
-outside_dict={}
-for i in protein_list:
-    outside_dict=pairwise_compare([i],compare_list,outside_dict,0,MSA,90,90,70,"9606",1)
-
-
-print("==========AVET PART=============")
-print("Compared groups:",protein_list,compare_list)
-print("Inside variation")
-print(inside_dict)
-print("Outside variation")
-print(outside_dict)
