@@ -1,8 +1,8 @@
-
+#Specific Residue Assignment
 
 Requirements:
 - A multiple sequence alignment containing orthologs of the receptors you want to compare
-- Header format should be ">sp or tr|UniprotID|GeneName_SpeciesName|SpeciesTaxID" e.g. "\>sp|P08908|5HT1A_HUMAN|9606"
+- Header format should be `">sp or tr|UniprotID|GeneName_SpeciesName|SpeciesTaxID"` e.g. `"\>sp|P08908|5HT1A_HUMAN|9606"`
 - Sequences should be ordered as following:
 \>sp|P08908|5HT1A_HUMAN|9606
 \>5HT1A orthologs
