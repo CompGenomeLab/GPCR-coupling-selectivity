@@ -1,6 +1,6 @@
 # G protein specific networks
 
-**RRCS_parser.py usage: **\
+**RRCS_parser.py usage:** \
 Here we are choosing to which G protein to analyze:
 ```python
 #You should comment out the G protein list you want to use
