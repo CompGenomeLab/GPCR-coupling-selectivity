@@ -1,4 +1,4 @@
-#Specific Residue Assignment
+# Specific Residue Assignment
 
 Requirements:
 - A multiple sequence alignment containing orthologs of the receptors you want to compare
