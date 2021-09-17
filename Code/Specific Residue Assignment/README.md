@@ -3,13 +3,13 @@
 Requirements:
 - A multiple sequence alignment containing orthologs of the receptors you want to compare
 - Header format should be `">sp or tr|UniprotID|GeneName_SpeciesName|SpeciesTaxID"` e.g. `"\>sp|P08908|5HT1A_HUMAN|9606"`
-- Sequences should be ordered as following: 
-\>sp|P08908|5HT1A_HUMAN|9606 
-\>5HT1A orthologs 
-\>sp|P07550|ADRB2_HUMAN|9606 
-\>ADRB2 orthologs 
-\>sp|P21728|DRD1_HUMAN|9606 
-\>DRD1 orthologs 
+- Sequences should be ordered as following:\
+\>sp|P08908|5HT1A_HUMAN|9606\
+\>5HT1A orthologs\
+\>sp|P07550|ADRB2_HUMAN|9606\
+\>ADRB2 orthologs\
+\>sp|P21728|DRD1_HUMAN|9606\
+\>DRD1 orthologs\
 
 Usage of specific_residue_find.py:
 
