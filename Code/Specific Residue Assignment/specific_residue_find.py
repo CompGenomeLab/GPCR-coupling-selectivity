@@ -249,7 +249,7 @@ def GPCR_convert(res,gene):
     import pickle
     gene=gene.lower()
     try:
-        with open(r"D:\Users\suuser\Desktop\CLASS A GPCRS STUDY FILE\GPCR_notations\{}_notation_dict".format(gene), 'rb') as handle:
+        with open(r"GPCR_notations\{}_notation_dict".format(gene), 'rb') as handle:
             conv_dict = pickle.load(handle)
         
         if type(res)==str:# GPCRdb Numbering ---> Residue Numbering
@@ -316,54 +316,6 @@ def index_to_resno(taxID,alignment_dict,index):
         place_count+=1
     return residue_count
 
-def human_table_producer(alignment,protein_list,residue_list,taxID,threshold,min_blossum_score,similarity,resno_or_place):
-    alignments=[]
-    markdown_table="|Position in MSA|GPCRdb Numbering|"
-    column_separator="| ------------ | ------------ | ------------ | ------------ |"
-    alignment_d=alignment_dict(alignment)
-    for protein in protein_list:
-        protein=[protein]
-        alignments.append(fasta_divider(protein,alignment_d[0]))#reference is the first gene
-        markdown_table+=protein[0]+"|"
-        column_separator+=" ------------ |"
-    markdown_table+="Consensus|Result|\n"
-    markdown_table+=column_separator+"\n"
-    residue_list.sort()
-    for res_num in residue_list:
-        line=""
-        conservations=[]
-        if resno_or_place==0:
-            index=res_num
-        elif resno_or_place==1:
-            if type(res_num)==str:
-                res_num=int(GPCR_convert(res_num,protein_list[0]))
-                
-            index=place_find(taxID,alignments[0],res_num)
-        line+="|{}".format(res_num)
-        count=0
-        for protein in protein_list:
-            align_dict=alignments[count]
-            conservation_result=conservation_check(index,align_dict,"9606",similarity,min_blossum_score)
-            conservation=conservation_result[0]
-            aa=conservation_result[1]
-            residue_num=conservation_result[2]
-            if count==0:#GPCRdb numbering reference
-                gpcrdb=GPCR_convert(residue_num,protein_list[0])
-                line+="|{}".format(gpcrdb)
-            line+="|{}{} {:.2f}% ".format(aa,residue_num,conservation)
-            conservations.append(conservation)
-            count+=1
-        cons_alignment=fasta_divider(protein_list,alignment_d[0])
-        conservation_result=conservation_check(index,cons_alignment,"9606",similarity,min_blossum_score)
-        conservation=conservation_result[0]
-        aa=conservation_result[1]
-        residue_num=conservation_result[2]
-        #residue_num=GPCR_convert(residue_num,protein_list[0])
-        line+="|{} {:.2f}% ".format(aa,conservation)
-        line+="|\n"
-        if conservation>=threshold:
-            markdown_table+=line
-    print (markdown_table)
     
 def pairwise_compare(list1,list2,position_object,comparison_type,MSA,specificity,consensus,lower,taxID,
                      similarity):
