@@ -105,6 +105,7 @@ def df_pairwise_t_test(p_value,first_list,second_list,df,mode):
 #%%
 #directory should be adjusted 
 directory=r"D:\Users\suuser\Desktop\gitdocs\GPCR-coupling-selectivity\Code\Contact Analysis\G Protein Specific Networks\RRCS_tables\all_converted_files\\"
+directory=r"D:\Users\suuser\Desktop\G protein selectivity manuscript\false_negative\\"
 dict_list=[]
 column_list=[]
 filename_dict={}
@@ -160,7 +161,7 @@ for key in total_keys:
 data=list(dataframe.values())
 keys=list(dataframe.keys())
 new_keys=[]
-
+#%%
 #Choose which one to use based on your comparison
 
 Gtarget_list=Gs_list
@@ -181,7 +182,8 @@ for i in keys:
         res2=res2+"*"
     new_column=res1+"-"+res2
     new_keys.append(new_column)
-    
+#%%
+new_keys=keys
 df = pd.DataFrame(data,columns =column_list, index=new_keys)
 data=""
 keys=""
@@ -201,16 +203,16 @@ print(df)
 
 
 #Gs vs others
-first_list=["ADRB2","DRD1"]
-second_list=["DRD2","ACM2","5HT2A","DRD3","HRH1","5HT1B"]
+# first_list=["ADRB2","DRD1"]
+# second_list=["DRD2","ACM2","5HT2A","DRD3","HRH1","5HT1B"]
 
 #Gio vs others
 # first_list=["ACM2","5HT1B"]
 # second_list=["ADRB2","DRD1","5HT2A","DRD2","DRD3","HRH1"]
 
 #Gi+Gio vs Gq+Gs
-# first_list=["DRD2","DRD3","ACM2","5HT1B"]
-# second_list=["ADRB2","DRD1","5HT2A","HRH1"]
+first_list=["DRD2","DRD3","ACM2","5HT1B"]
+second_list=["ADRB2","DRD1","5HT2A","HRH1"]
 
 #Gq vs others
 # first_list=["5HT2A","HRH1"]

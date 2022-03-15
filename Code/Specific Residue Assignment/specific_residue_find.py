@@ -157,13 +157,13 @@ def spial(alignment,groupA,groupB,specificity_threshold,conservation_threshold,
                 a=1
         elif aa_A=="-" and aa_B=="-":
             continue
-        elif conservationC>=conservation_threshold and a==0 and b==0:# and gap_percentage_C<=10:
+        if conservationC>=conservation_threshold and a==0 and b==0:# and gap_percentage_C<=10:
             c=1
             if conservationC not in C_specific_dict:
                 C_specific_dict[conservationC]=[]
             C_specific_dict[conservationC].append([placeC,aa_C,i+1,keyC,gap_percentage_C,total_num_C])
         
-        elif blosum_score(aa_A[0],aa_B[0])<min_blossum_score:
+        if blosum_score(aa_A[0],aa_B[0])<min_blossum_score:
             if conservationA>=specificity_threshold:# and gap_percentage_A<=20:
                 a=1
             if conservationB>=specificity_threshold:# and gap_percentage_B<=20:
@@ -389,12 +389,12 @@ outside_dict={}
 for i in couplers:
     outside_dict=pairwise_compare([i],non_couplers,outside_dict,0,MSA,90,90,70,"9606",1)
 
-#For a residue to be specific for this approach inside_dict value should be 0 and outside_dict value should be at leas 1
+#For a residue to be specific for this approach inside_dict value should be 0 and outside_dict value should be at least 1
 
 #================
 #Sensitive Aproach
 sensitive_dict={}
-sensitive_dict=pairwise_compare([couplers],non_couplers,sensitive_dict,0,MSA,90,90,70,"9606",1)
+sensitive_dict=pairwise_compare(couplers,non_couplers,sensitive_dict,0,MSA,90,90,70,"9606",1)
 #We get every residue from this approach.
 
 #Last parameter controls the similarity measure from BLOSUM80 matrix. You can disable it by chaingin it to 0.
